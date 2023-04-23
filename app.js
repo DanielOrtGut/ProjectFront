@@ -3,19 +3,19 @@ let students = [];
 let deleteId = null;
 
 window.addEventListener('DOMContentLoaded', () => {
-getStudents();
+  getStudents();
 })
 
 const getStudents = () => {
-fetch(API_URL)
-.then(response => response.json())
-.catch(error => {
-alertManager('error', 'Ocurrión un problema al cargar los estudiantes');
-})
-.then(data => {
-students = data.data;
-renderResult(students);
-})
+  fetch(API_URL)
+    .then(response => response.json())
+    .catch(error => {
+      alertManager('error', 'Ocurrión un problema al cargar los estudiantes');
+    })
+    .then(data => {
+      students = data.data;
+      renderResult(students);
+    })
 }
 
 //-----------------------------
@@ -46,7 +46,7 @@ const renderResult = (students) => {
 const createStudent = () => {
   const formData = new FormData(document.querySelector('#formAdd'));
 
-  if(!formData.get('nombre').length || !formData.get('carrera') || !formData.get('semestre')) {
+  if (!formData.get('nombre').length || !formData.get('carrera') || !formData.get('semestre')) {
     document.querySelector('#msgFormAdd').innerHTML = '* Llena todos los campos';
     return;
   }
@@ -67,15 +67,15 @@ const createStudent = () => {
       'Content-Type': 'application/json'
     }
   })
-  .then(res => res.json())
-  .catch(error => {
-    alertManager('error', error);
-    document.querySelector('#formAdd').reset();
-  })
-  .then(response => {
-    alertManager('success', response.mensaje)
-    getStudents();
-  })
+    .then(res => res.json())
+    .catch(error => {
+      alertManager('error', error);
+      document.querySelector('#formAdd').reset();
+    })
+    .then(response => {
+      alertManager('success', response.mensaje)
+      getStudents();
+    })
 }
 
 
@@ -84,7 +84,7 @@ const createStudent = () => {
 const editStudent = (id) => {
   let student = {};
   students.filter(stud => {
-    if(stud.Id == id){
+    if (stud.Id == id) {
       student = stud
     }
   });
@@ -93,25 +93,25 @@ const editStudent = (id) => {
   document.querySelector('#formEdit #nombre').value = student.Nombre;
   document.querySelector('#formEdit #carrera').value = student.Carrera;
   document.querySelector('#formEdit #semestre').value = student.Semestre;
-  
+
   console.log(student);
   openModalEdit();
+}
+
+//-------------------
+
+const updateStudent = () => {
+  const student = {
+    Nombre: document.querySelector('#formEdit #nombre').value,
+    Carrera: document.querySelector('#formEdit #carrera').value,
+    Semestre: document.querySelector('#formEdit #semestre').value,
+    Id: document.querySelector('#formEdit #ID').value,
   }
-  
-  //-------------------
-  
-  const updateStudent = () => {
-    const student = {
-      Nombre: document.querySelector('#formEdit #nombre').value,
-      Carrera: document.querySelector('#formEdit #carrera').value,
-      Semestre: document.querySelector('#formEdit #semestre').value,
-      Id: document.querySelector('#formEdit #ID').value,
-    }
-  
-    if(!student.Nombre || !student.Carrera || !student.Semestre) {
-      document.querySelector('#msgFormEdit').innerHTML = '* Los campos no deben estar vacíos';
-      return;
-    }
+
+  if (!student.Nombre || !student.Carrera || !student.Semestre) {
+    document.querySelector('#msgFormEdit').innerHTML = '* Los campos no deben estar vacíos';
+    return;
+  }
   document.querySelector('#msgFormEdit').innerHTML = '';
 
   fetch(API_URL, {
@@ -121,14 +121,14 @@ const editStudent = (id) => {
       'Content-Type': 'application/json'
     }
   })
-  .then(res => res.json())
-  .catch(error => {
-    alertManager('error', error);
-  })
-  .then(response => {
-    alertManager('success', response.mensaje);
-    getStudents();
-  });
+    .then(res => res.json())
+    .catch(error => {
+      alertManager('error', error);
+    })
+    .then(response => {
+      alertManager('success', response.mensaje);
+      getStudents();
+    });
   document.querySelector('#formEdit').reset();
 }
 
@@ -139,21 +139,21 @@ const deleteStudent = (id) => {
   fetch(`${API_URL}/${id}`, {
     method: 'DELETE'
   })
-  .then(res => res.json())
-  .catch(error => {
-    alertManager('error', error);
-  })
-  .then(response => {
-    alertManager('success', response.mensaje);
-    closeModalConfirm();
-    getStudents();
-    deleteId = null;
-  })
+    .then(res => res.json())
+    .catch(error => {
+      alertManager('error', error);
+    })
+    .then(response => {
+      alertManager('success', response.mensaje);
+      closeModalConfirm();
+      getStudents();
+      deleteId = null;
+    })
 
 }
 
 const confirmDelete = (res) => {
-  if(res){
+  if (res) {
     deleteStudent(deleteId);
   } else {
     closeModalConfirm();
@@ -169,7 +169,7 @@ const modalAdd = document.querySelector('#modalAdd');
 
 btnAdd.onclick = () => openModalAdd();
 
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target == modalAdd) {
     //modalAdd.style.display = "none";
   }
@@ -195,7 +195,7 @@ const closeModalEdit = () => {
   modalEdit.style.display = 'none';
 }
 
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target == modalEdit) {
     //modalEdit.style.display = "none";
   }
@@ -205,7 +205,7 @@ window.onclick = function(event) {
 /** --------------------------------------------------------------- */
 const modalConfirm = document.getElementById('modalConfirm');
 
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target == modalConfirm) {
     modalConfirm.style.display = "none";
   }
