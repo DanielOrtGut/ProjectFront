@@ -1,4 +1,4 @@
-const API_URL = 'https://bc8af2d3-bdf0-46f2-abeb-5c93c071602b-00-16gl2tzlc79kg.riker.replit.dev/students';
+const API_URL = 'https://bc8af2d3-bdf0-46f2-abeb-5c93c071602b-00-16gl2tzlc79kg.riker.replit.dev/';
 let students = [];
 let deleteId = null;
 
